@@ -1,4 +1,7 @@
 import adapter.*;
+import proxy.BrowerProxy;
+import proxy.Browser;
+import proxy.IBrowser;
 import singleton.AClazz;
 import singleton.BClazz;
 import singleton.SocketClient;
@@ -24,16 +27,32 @@ public class Main {
         * 어뎁터 패턴 테스트
         * */
 
-        Authentication authentication = new Authentication();
-        allocated(authentication);
+//        Authentication authentication = new Authentication();
+//        allocated(authentication);
+//
+//        Authorize authorize = new Authorize();
+//        ApiVersion1 authorizeAdapter = new SocketAdapter(authorize);
+//        allocated(authorizeAdapter);
+//
+//        Login login = new Login();
+//        ApiVersion1 LoginAdapter = new SocketAdapter(login);
+//        allocated(LoginAdapter);
 
-        Authorize authorize = new Authorize();
-        ApiVersion1 authorizeAdapter = new SocketAdapter(authorize);
-        allocated(authorizeAdapter);
+        Browser browser = new Browser("www.naver.com");
+        browser.show();
+        browser.show();
+        browser.show();
+    // 이럴 경우 여러번 실행이 되면서 캐시 기능이 구현되지 않고 있다.
 
-        Login login = new Login();
-        ApiVersion1 LoginAdapter = new SocketAdapter(login);
-        allocated(LoginAdapter);
+
+        IBrowser browserCache = new BrowerProxy("www.naver.com");
+        browserCache.show();
+        browserCache.show();
+        browserCache.show();
+        /*
+        이럴 경우 첫번째의 경우에만 로딩이 되고,
+        이후에 호출 되는 내용은 캐싱을 사용 하는 개념이 된다.
+        */
 
     }
 
