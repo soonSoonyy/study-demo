@@ -1,5 +1,6 @@
 import adapter.*;
 import aop.AopBrower;
+import decorator.*;
 import proxy.BrowerProxy;
 import proxy.Browser;
 import proxy.IBrowser;
@@ -58,28 +59,52 @@ public class Main {
         */
 
 
-        AtomicLong start = new AtomicLong();
-        AtomicLong end = new AtomicLong();
+//        AtomicLong start = new AtomicLong();
+//        AtomicLong end = new AtomicLong();
+//
+//        IBrowser aopBrower = new AopBrower("www.naver.com",
+//                () -> {
+//                    System.out.println("before");
+//                    start.set(System.currentTimeMillis());
+//                },
+//                () -> {
+//                    System.out.println("after");
+//                    long now = System.currentTimeMillis();
+//                    end.set(now - start.get());
+//                }
+//        );
+//
+//        aopBrower.show();
+//        System.out.println("loading Time " + end.get());
+//        //첫번 째는 로딩이 되기 때문에 Sleep 으로 걸었던 시간만큼 시간이 찍힌다.
+//
+//        aopBrower.show();
+//        System.out.println("loading Time " + end.get());
+//        //두 번째의 경우 cache를 사용 하기 때문에 end.get() 은 0이 된다.
 
-        IBrowser aopBrower = new AopBrower("www.naver.com",
-                () -> {
-                    System.out.println("before");
-                    start.set(System.currentTimeMillis());
-                },
-                () -> {
-                    System.out.println("after");
-                    long now = System.currentTimeMillis();
-                    end.set(now - start.get());
-                }
-        );
 
-        aopBrower.show();
-        System.out.println("loading Time " + end.get());
-        //첫번 째는 로딩이 되기 때문에 Sleep 으로 걸었던 시간만큼 시간이 찍힌다.
+        /*
+        * 데코레이터 패턴
+        * */
+        ICar audi = new Audi(1000);
+        audi.showPrice();
+        // 결과 : audi 의 가격은 1000 원 입니다.
 
-        aopBrower.show();
-        System.out.println("loading Time " + end.get());
-        //두 번째의 경우 cache를 사용 하기 때문에 end.get() 은 0이 된다.
+        //A3
+        ICar audi3 = new A3(audi, "A3");
+        audi3.showPrice();
+        //결과 : A3 의 가격은 2000 원 입니다.
+
+        //A4
+        ICar audi4 = new A4(audi, "A4");
+        audi4.showPrice();
+        //결과 : A4 의 가격은 3000 원 입니다.
+
+
+        //A5
+        ICar audi5 = new A5(audi, "A5");
+        audi5.showPrice();
+        //결과 : A5 의 가격은 4000원 입니다.
 
     }
 
