@@ -1,6 +1,8 @@
 import adapter.*;
 import aop.AopBrower;
 import decorator.*;
+import observer.Button;
+import observer.IButtonListener;
 import proxy.BrowerProxy;
 import proxy.Browser;
 import proxy.IBrowser;
@@ -86,25 +88,43 @@ public class Main {
         /*
         * 데코레이터 패턴
         * */
-        ICar audi = new Audi(1000);
-        audi.showPrice();
-        // 결과 : audi 의 가격은 1000 원 입니다.
+//        ICar audi = new Audi(1000);
+//        audi.showPrice();
+//        // 결과 : audi 의 가격은 1000 원 입니다.
+//
+//        //A3
+//        ICar audi3 = new A3(audi, "A3");
+//        audi3.showPrice();
+//        //결과 : A3 의 가격은 2000 원 입니다.
+//
+//        //A4
+//        ICar audi4 = new A4(audi, "A4");
+//        audi4.showPrice();
+//        //결과 : A4 의 가격은 3000 원 입니다.
+//
+//
+//        //A5
+//        ICar audi5 = new A5(audi, "A5");
+//        audi5.showPrice();
+//        //결과 : A5 의 가격은 4000원 입니다.
 
-        //A3
-        ICar audi3 = new A3(audi, "A3");
-        audi3.showPrice();
-        //결과 : A3 의 가격은 2000 원 입니다.
+        /*
+        * 옵저버 패턴
+        * */
+        Button button = new Button("button");
 
-        //A4
-        ICar audi4 = new A4(audi, "A4");
-        audi4.showPrice();
-        //결과 : A4 의 가격은 3000 원 입니다.
+        button.addListener(new IButtonListener() {
+            @Override
+            public void clickEvent(String event) {
+                System.out.println(event);
+            }
+        });
 
 
-        //A5
-        ICar audi5 = new A5(audi, "A5");
-        audi5.showPrice();
-        //결과 : A5 의 가격은 4000원 입니다.
+        button.click("메세지 전달 : click1");
+        button.click("메세지 전달 : click2");
+        button.click("메세지 전달 : click3");
+        button.click("메세지 전달 : click4");
 
     }
 
