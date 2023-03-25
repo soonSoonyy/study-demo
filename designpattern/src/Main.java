@@ -1,6 +1,10 @@
 import adapter.*;
 import aop.AopBrower;
 import decorator.*;
+import facade.Ftp;
+import facade.Reader;
+import facade.SftpClient;
+import facade.Writer;
 import observer.Button;
 import observer.IButtonListener;
 import proxy.BrowerProxy;
@@ -111,20 +115,44 @@ public class Main {
         /*
         * 옵저버 패턴
         * */
-        Button button = new Button("button");
+//        Button button = new Button("button");
+//
+//        button.addListener(new IButtonListener() {
+//            @Override
+//            public void clickEvent(String event) {
+//                System.out.println(event);
+//            }
+//        });
+//
+//
+//        button.click("메세지 전달 : click1");
+//        button.click("메세지 전달 : click2");
+//        button.click("메세지 전달 : click3");
+//        button.click("메세지 전달 : click4");
+//
+        Ftp ftpClient = new Ftp("www.foo.co.kr", 22, "/home/etc");
+        ftpClient.connect();
+        ftpClient.moveDirectory();
 
-        button.addListener(new IButtonListener() {
-            @Override
-            public void clickEvent(String event) {
-                System.out.println(event);
-            }
-        });
+        Writer writer = new Writer("txt.tmp");
+        writer.fileConnect();
+        writer.fileWrite();
+
+        Reader reader = new Reader("txt.tmp");
+        reader.fileConnect();
+        reader.fileRead();
+
+        ftpClient.disconnect();
+        writer.fileDisconnect();
+        reader.fileDisconnect();
 
 
-        button.click("메세지 전달 : click1");
-        button.click("메세지 전달 : click2");
-        button.click("메세지 전달 : click3");
-        button.click("메세지 전달 : click4");
+        SftpClient sftpClient = new SftpClient("www.foo.co.kr", 22, "/home/etc", "text.tmp");
+
+        sftpClient.connect();
+        sftpClient.write();
+        sftpClient.read();
+        sftpClient.disconnect();
 
     }
 
