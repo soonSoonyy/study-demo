@@ -1,20 +1,5 @@
 import adapter.*;
-import aop.AopBrower;
-import decorator.*;
-import facade.Ftp;
-import facade.Reader;
-import facade.SftpClient;
-import facade.Writer;
-import observer.Button;
-import observer.IButtonListener;
-import proxy.BrowerProxy;
-import proxy.Browser;
-import proxy.IBrowser;
-import singleton.AClazz;
-import singleton.BClazz;
-import singleton.SocketClient;
-
-import java.util.concurrent.atomic.AtomicLong;
+import strategy.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -130,29 +115,50 @@ public class Main {
 //        button.click("메세지 전달 : click3");
 //        button.click("메세지 전달 : click4");
 //
-        Ftp ftpClient = new Ftp("www.foo.co.kr", 22, "/home/etc");
-        ftpClient.connect();
-        ftpClient.moveDirectory();
+//        Ftp ftpClient = new Ftp("www.foo.co.kr", 22, "/home/etc");
+//        ftpClient.connect();
+//        ftpClient.moveDirectory();
+//
+//        Writer writer = new Writer("txt.tmp");
+//        writer.fileConnect();
+//        writer.fileWrite();
+//
+//        Reader reader = new Reader("txt.tmp");
+//        reader.fileConnect();
+//        reader.fileRead();
+//
+//        ftpClient.disconnect();
+//        writer.fileDisconnect();
+//        reader.fileDisconnect();
+//
+//
+//        SftpClient sftpClient = new SftpClient("www.foo.co.kr", 22, "/home/etc", "text.tmp");
+//
+//        sftpClient.connect();
+//        sftpClient.write();
+//        sftpClient.read();
+//        sftpClient.disconnect();
 
-        Writer writer = new Writer("txt.tmp");
-        writer.fileConnect();
-        writer.fileWrite();
+        System.out.println("Start Encoding..");
+        Encoder encoder = new Encoder();
 
-        Reader reader = new Reader("txt.tmp");
-        reader.fileConnect();
-        reader.fileRead();
+        EncodingStrategy base64 = new Base64Strategy();
+        EncodingStrategy normal = new NormalStrategy();
 
-        ftpClient.disconnect();
-        writer.fileDisconnect();
-        reader.fileDisconnect();
+        String message = "Hello Strategy";
+        encoder.setEncodingStrategy(base64);
+        String base64Result = encoder.getMessage(message);
 
+        encoder.setEncodingStrategy(normal);
+        String normalResult = encoder.getMessage(message);
 
-        SftpClient sftpClient = new SftpClient("www.foo.co.kr", 22, "/home/etc", "text.tmp");
+        System.out.println(base64Result);
+        System.out.println(normalResult);
 
-        sftpClient.connect();
-        sftpClient.write();
-        sftpClient.read();
-        sftpClient.disconnect();
+        encoder.setEncodingStrategy(new AppendStrategy());
+        String appendResult = encoder.getMessage(message);
+
+        System.out.println(appendResult);
 
     }
 
