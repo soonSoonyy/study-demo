@@ -13,50 +13,35 @@ void main() {
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Container(
+    return Stack(
+      children:[
+        Container(
+          color: Colors.black,
+          width: 500,
+          height: 500,
+
+        ),
+        Container(
+          color: Colors.blue,
+          width: 400,
+          height: 400,
+
+        ),
+        Container(
+          color: Colors.red,
+          width: 300,
+          height: 300,
+
+        ),
+        Align(
+          alignment: Alignment(0.5, -0.5),
+          child: Container(
+            color: Colors.yellow,
             width: 200,
             height: 200,
-            color: Colors.red,
           ),
-          Expanded(
-              child: Container(
-                width: 200,
-                color: Colors.green,
-          )),
-          Flexible(
-              child: Container(
-                width: 100,
-            color: Colors.blue,
-          ))
-          // Flexible(
-          //   flex: 1,
-          //   child: Container(
-          //     color: Colors.red,
-          //   ),
-          // ),
-          // Flexible(
-          //   flex: 2,
-          //   child: Container(
-          //     color: Colors.green,
-          //   ),
-          // ),
-          // Flexible(
-          //   flex: 3,
-          //   child: Container(
-          //     color: Colors.blue,
-          //   ),
-          // ),
-          // Flexible(
-          //   flex: 4,
-          //   child: Container(
-          //     color: Colors.yellow,
-          //   ),
-          // ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
