@@ -15,11 +15,10 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width : double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
+      height: double.infinity,
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
           Container(
             width: 100,
