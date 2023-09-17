@@ -13,65 +13,48 @@ void main() {
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Container(
       child: Row(
         children: [
           Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            width: 200,
+            height: 200,
+            color: Colors.red,
           ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-          Container(
-            color: Colors.grey,
-            width: 100,
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-          ),
-
+          Expanded(
+              child: Container(
+                width: 200,
+                color: Colors.green,
+          )),
+          Flexible(
+              child: Container(
+                width: 100,
+            color: Colors.blue,
+          ))
+          // Flexible(
+          //   flex: 1,
+          //   child: Container(
+          //     color: Colors.red,
+          //   ),
+          // ),
+          // Flexible(
+          //   flex: 2,
+          //   child: Container(
+          //     color: Colors.green,
+          //   ),
+          // ),
+          // Flexible(
+          //   flex: 3,
+          //   child: Container(
+          //     color: Colors.blue,
+          //   ),
+          // ),
+          // Flexible(
+          //   flex: 4,
+          //   child: Container(
+          //     color: Colors.yellow,
+          //   ),
+          // ),
         ],
       ),
     );
