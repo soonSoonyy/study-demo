@@ -13,42 +13,65 @@ void main() {
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-                child: Text('Hello, Container!'),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.green,
-                child: Text('Hello, Container!'),
-              ),
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.blue,
-                child: Text('Hello, Container!'),
-              ),
-            ],
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
           ),
           Container(
-            width: 300,
-            height: 300,
-            color: Colors.yellow,
-            child: Text('Hello, Container!'),
-          )
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+          Container(
+            color: Colors.grey,
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+          ),
+
         ],
       ),
     );
