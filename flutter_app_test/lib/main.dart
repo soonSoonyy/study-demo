@@ -6,8 +6,43 @@ void main() {
         appBar: AppBar(
           title: Text('Study to Container'),
         ),
-        body: Center(child: CustomContainer())),
+        body: Body()),
   ));
+}
+
+
+class Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width : double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 100,
+            height: 100,
+            color: Colors.red,
+            child: Text('Hello, Container!'),
+          ),
+          Container(
+            width: 100,
+            height: 100,
+            color: Colors.green,
+            child: Text('Hello, Container!'),
+          ),
+          Container(
+            width: 100,
+            height: 100,
+            color: Colors.blue,
+            child: Text('Hello, Container!'),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class CustomContainer extends StatelessWidget {
