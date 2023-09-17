@@ -10,34 +10,45 @@ void main() {
   ));
 }
 
-
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            color: Colors.red,
-            child: Text('Hello, Container!'),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+                child: Text('Hello, Container!'),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.green,
+                child: Text('Hello, Container!'),
+              ),
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.blue,
+                child: Text('Hello, Container!'),
+              ),
+            ],
           ),
           Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
+            width: 300,
+            height: 300,
+            color: Colors.yellow,
             child: Text('Hello, Container!'),
-          ),
-          Container(
-            width: 100,
-            height: 100,
-            color: Colors.blue,
-            child: Text('Hello, Container!'),
-          ),
+          )
         ],
       ),
     );
