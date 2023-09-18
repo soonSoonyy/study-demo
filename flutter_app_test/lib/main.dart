@@ -13,76 +13,73 @@ void main() {
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children:[
-        Container(
-          color: Colors.black,
-          width: 500,
-          height: 500,
-
-        ),
-        Container(
-          color: Colors.blue,
-          width: 400,
-          height: 400,
-
-        ),
-        Container(
-          color: Colors.red,
-          width: 300,
-          height: 300,
-
-        ),
-        Align(
-          alignment: Alignment(0.5, -0.5),
-          child: Container(
-            color: Colors.yellow,
-            width: 200,
-            height: 200,
-          ),
-        ),
-      ],
-    );
+    return Column(
+        children: [
+          ExampleStateless(),
+          ExampleStateful(index : 3)]);
   }
 }
 
-class CustomContainer extends StatelessWidget {
-  const CustomContainer({super.key});
+class ExampleStateless extends StatelessWidget {
+  const ExampleStateless({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 300,
-      padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
-      decoration: BoxDecoration(
-          color: Color(0xFFD8EEC0),
-          image: const DecorationImage(
-            image: NetworkImage(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-            fit: BoxFit.cover,
+    return Expanded(
+        flex: 1,
+        child: Container(
+          color: Colors.blue,
+        ));
+  }
+}
+
+class ExampleStateful extends StatefulWidget {
+  final int index;
+
+  const ExampleStateful({required this.index, super.key});
+
+  @override
+  State<ExampleStateful> createState() => _ExampleStatefulState();
+}
+
+class _ExampleStatefulState extends State<ExampleStateful> {
+  late int _index;
+  late TextEditingController textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _index = widget.index;
+    textEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            if (_index == 5) {
+              _index = 0;
+              return;
+            }
+            _index += 1;
+          });
+        },
+        child: Container(
+          color: Colors.red.withOpacity(_index / 5),
+          child: Center(
+            child: Text('Index: $_index'),
           ),
-          border: Border.all(
-            color: Color(0xFFB1D28A),
-            style: BorderStyle.solid,
-            width: 8,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                offset: Offset(6, 6),
-                blurRadius: 10,
-                spreadRadius: 2),
-            BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
-                offset: Offset(-6, -6),
-                blurRadius: 10,
-                spreadRadius: 2)
-          ]),
-      child: Center(
-          child: Container(
-              color: Color(0xFFC4C1CB), child: Text('Hello, Container!'))),
+        ),
+      ),
     );
   }
 }
