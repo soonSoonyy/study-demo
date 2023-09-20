@@ -1,5 +1,9 @@
 
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -17,66 +21,34 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TestWidget();
-  }
-}
-
-class TestWidget extends StatefulWidget {
-  const TestWidget({super.key});
-
-  @override
-  State<TestWidget> createState() => _TestWidgetState();
-}
-
-class _TestWidgetState extends State<TestWidget> {
-  int value = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Count : ' + '$value',
-            style: const TextStyle(fontSize: 30),
-          ),
-          TestButton(addCounter),
-        ]);
-  }
-
-  void addCounter(int addValue) {
-    setState(() => value = addValue + value);
-  }
-}
-
-class TestButton extends StatelessWidget {
-  const TestButton(this.callback, {super.key});
-
-  final Function(int) callback;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        width: double.infinity,
-
-        child: InkWell(
-          onTap: () => callback.call(1),
-          onDoubleTap: () => callback.call(10),
-          onLongPress: () => callback.call(100),
-          child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue)),
-                child: const Text(
-                  'UpCounter',
-                  style: TextStyle(fontSize: 20),
-                ),
-              )
-          ),
-        )
+    return CachedNetworkImage(
+      imageUrl: "https://www.mashfrog.com/sites/default/files/2023-02/1920x1080_cover_B%20%281%29.png",
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }
+
+
+
+class RandomWords extends StatelessWidget {
+  const RandomWords({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final wordList = generateWordPairs().take(100).toList();
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: wordList.map((wordPair) {
+          return ListTile(
+            title: Text(wordPair.asPascalCase),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+
