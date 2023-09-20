@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -7,7 +8,7 @@ class NewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xD8A8D2F8),
+          backgroundColor: const Color(0xD8A8D2F8),
           title: const Text('Welcome New Page'),
         ),
         body: Center(
@@ -16,17 +17,13 @@ class NewPage extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 child: Text('Go to Back page'),
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const NewPage2())
-                  );
+                  context.pushNamed('new2');
                 },
                 child: Text('Go to New Page 2'),
               ),
@@ -43,7 +40,7 @@ class NewPage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xD8A8D2F8),
+          backgroundColor: const Color(0xD8A8D2F8),
           title: const Text('Welcome New Page2'),
         ),
         body: Center(
@@ -53,17 +50,15 @@ class NewPage2 extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
-                child: Text('Go to Back page'),
+                child: const Text('Go to Back page'),
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.popUntil(
-                      context,
-                      (route) => route.isFirst);
+                  context.goNamed('home');
                 },
-                child: Text('Go to Home'),
+                child: const Text('Go to Home'),
               ),
             ],
           ),

@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/screen/new_page.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: HomeWidget(),
-  ));
+  runApp(MaterialApp.router(
+    routerConfig: GoRouter(
+      initialLocation: '/',
+      routes:[
+        GoRoute(
+            path:'/',
+            name:'home',
+            builder: (context, _) => const HomeWidget(),
+        ),
+        GoRoute(path:'/new1', name:'new1', builder: (context, _) => const NewPage()),
+        GoRoute(path:'/new2', name:'new2', builder: (context, _) => const NewPage2()),
+      ]
+    ),
+  )
+  );
 }
 
 class HomeWidget extends StatefulWidget {
@@ -24,17 +37,27 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xD8A8D2F8),
+        backgroundColor: const Color(0xD8A8D2F8),
         title: const Text('Study to Flutter'),
       ),
-      body: Center(
-        child: TextButton(
-            child: Text('Go to New Page'),
-            onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NewPage()))
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: TextButton(
+                child: const Text('Go to New Page1'),
+                onPressed: () =>
+                    context.pushNamed('new1')
+            ),
+          ),
+          Center(
+            child: TextButton(
+                child: const Text('Go to New Page2'),
+                onPressed: () =>
+                    context.pushNamed('new2')
+            ),
+          ),
+        ],
       ),
     );
   }
