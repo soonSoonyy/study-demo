@@ -1,54 +1,71 @@
-
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-
 void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xD8A8D2F8),
-          title: const Text('Study to Flutter'),
-        ),
-        body: Body()),
+  runApp(const MaterialApp(
+    home: HomeWidget(),
   ));
 }
 
-class Body extends StatelessWidget {
-  const Body({super.key});
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: "https://www.mashfrog.com/sites/default/files/2023-02/1920x1080_cover_B%20%281%29.png",
-      placeholder: (context, url) => const CircularProgressIndicator(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-    );
-  }
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
+class _HomeWidgetState extends State<HomeWidget> {
+  late int index;
 
-
-class RandomWords extends StatelessWidget {
-  const RandomWords({super.key});
+  @override
+  void initState() {
+    super.initState();
+    index = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final wordList = generateWordPairs().take(100).toList();
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: wordList.map((wordPair) {
-          return ListTile(
-            title: Text(wordPair.asPascalCase),
-          );
-        }).toList(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xD8A8D2F8),
+        title: const Text('Study to Flutter'),
+      ),
+      body: homeBody(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'User',
+          ),
+        ],
+        currentIndex: index,
+        onTap: (newIndex) {
+          setState(() {
+             index = newIndex;
+          });
+        },
       ),
     );
   }
+
+  Widget homeBody() {
+    switch (index) {
+      case 1:
+        return Center(
+            child: Icon(Icons.search, size: 100.0));
+      case 2:
+        return Center(
+            child: Icon(Icons.person, size: 100.0));
+      default:
+        return Center(
+            child: Icon(Icons.home, size: 100.0));
+    }
+  }
 }
-
-
