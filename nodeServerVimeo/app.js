@@ -25,3 +25,8 @@ app.post('/email-post', function (req, res) {
 	console.log(req.body)
 	res.render('email.ejs',{'email':req.body.email})
 })
+app.post('/ajax-send-email', function (req, res) {
+	console.log(req.body.email)
+	var responseData = {'result':'ok', 'email':req.body.email}
+	res.json(responseData);
+})
