@@ -17,13 +17,13 @@
     </form>
     <button class="ajaxsend btn btn-secondary mt-2">제출</button>
 
-    <div class="result mt-3"></div>
+    <div class="result mt-3"> </div>
 </div>
 
 <script>
     document.querySelector('.ajaxsend').addEventListener('click', function(){
         var inputdata = document.forms[0].elements[0].value
-        sendAjax('http://127.0.0.1:3000/ajax-send-email', inputdata)
+        sendAjax('http://localhost:3000/ajax-send-email', inputdata)
 
         function sendAjax(url, data) {
             var data = {'email': data};
@@ -34,8 +34,12 @@
             xhr.send(data);
             xhr.addEventListener('load', function(){
                 var result = JSON.parse(xhr.responseText);
-                if(result.result !== 'ok') return;
-                document.querySelector('.result').innerHTML = result.email;
+                var resultDiv = document.querySelector('.result')
+
+                if(result.result !== 'ok')
+                    resultDiv.innerHTML = result.message;
+
+                resultDiv.innerHTML = result.data.Name + '님 환영합니다!'
             });
         }
     });
