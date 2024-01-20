@@ -8,14 +8,14 @@
 </head>
 <body>
 <div class="container">
-    <form action="email-post" method="post" class="mt-5">
+    <form action="/email/form" method="post" class="mt-5">
         <div class="form-group">
             <label for="email">이메일 주소:</label>
             <input type="email" id="email" name="email" class="form-control">
         </div>
-<!--        <input type="submit" class="btn btn-primary">-->
+        <input type="submit" class="btn btn-primary">
     </form>
-    <button class="ajaxsend btn btn-secondary mt-2">제출</button>
+    <button class="ajaxsend btn btn-secondary mt-2">Ajax 제출</button>
 
     <div class="result mt-3"> </div>
 </div>
@@ -23,7 +23,7 @@
 <script>
     document.querySelector('.ajaxsend').addEventListener('click', function(){
         var inputdata = document.forms[0].elements[0].value
-        sendAjax('http://localhost:3000/ajax-send-email', inputdata)
+        sendAjax('http://localhost:3000/email/ajax', inputdata)
 
         function sendAjax(url, data) {
             var data = {'email': data};
