@@ -1,0 +1,12 @@
+spring:
+  application:
+    name : board-server
+
+  datasource:
+    driver-class-name:
+    url: jdbc:mysql://localhost:3306/board?serverTimezone=UTC
+    username: root
+    password: gpgp2932
+
+mybatis:
+  mapper-locations: classpath:com.fastcampus.boardserver.mapper/*.xml
