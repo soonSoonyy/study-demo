@@ -16,15 +16,14 @@ public class SHA256Util {
         try {
             sh = MessageDigest.getInstance(ENCRYPTION_KEY);
             sh.update(str.getBytes());
-            byte byteData[] = sh.digest();
-            StringBuffer sb = new StringBuffer();
+            byte[] byteData = sh.digest();
+            StringBuilder sb = new StringBuilder();
             for (byte aByteData : byteData) {
                 sb.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));
             }
             SHA = sb.toString();
         } catch (Exception e) {
             log.error("encryptSHA256 error : {}", e);
-            SHA = null;
         }
         return SHA;
     }

@@ -9,17 +9,17 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
 
-    public UserDAO selectUserById(@Param("userId") String userId);
+    UserDAO selectUserById(@Param("userId") String userId);
 
-    public UserDAO selectUserByIdAndPassword(@Param("userId") String userId, @Param("password") String password);
+    UserDAO selectUserByIdAndPassword(@Param("userId") String userId, @Param("password") String password);
 
-    public void insertUser(UserRegisterDAO dao);
+    void insertUser(UserRegisterDAO dao);
 
-    public void deleteUserById(@Param("userId") String userId);
+    void deleteUserById(@Param("userId") String userId);
 
-    public boolean isDuplicatedId(@Param("userId") String userId);
+    boolean isDuplicatedId(@Param("userId") String userId);
 
-    public void updatePassword(UserUpdateDAO dao);
+    void updatePassword(UserUpdateDAO dao);
 
 
 
