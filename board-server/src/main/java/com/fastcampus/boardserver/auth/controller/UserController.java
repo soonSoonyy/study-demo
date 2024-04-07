@@ -1,10 +1,13 @@
 package com.fastcampus.boardserver.auth.controller;
 
 import com.fastcampus.boardserver.auth.exception.NotExistUserException;
+import com.fastcampus.boardserver.auth.exception.UnSupportedException;
 import com.fastcampus.boardserver.auth.model.LoginResponse;
 import com.fastcampus.boardserver.auth.model.dto.UserChangePasswordDTO;
+import com.fastcampus.boardserver.auth.model.dto.UserDeleteDTO;
 import com.fastcampus.boardserver.auth.model.dto.UserLoginDTO;
 import com.fastcampus.boardserver.auth.model.dto.UserRegisterDTO;
+import com.fastcampus.boardserver.auth.model.enums.UserStatus;
 import com.fastcampus.boardserver.auth.model.vo.UserVO;
 import com.fastcampus.boardserver.auth.service.SessionService;
 import com.fastcampus.boardserver.auth.service.UserService;
@@ -92,6 +95,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception e){
             log.error("비밀번호 변경 중 에러가 발생하였습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(@RequestBody UserDeleteDTO dto, HttpSession session){
+        try{
+
+            UserVO user = userService.getUserInfo(session.getId());
+
+            if(user.getUserStatus() != UserStatus.ADMIN){
+                throw new UnSupportedException("해당 유저는 권한이 없습니다.");
+            }
+
+            userService.deleteId(dto.getUserId());
+            return ResponseEntity.status(HttpStatus.OK).build();
+
+        }catch (Exception e){
+            log.error("계정 삭제 중 에러가 발생하였습니다.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

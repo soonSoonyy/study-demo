@@ -10,11 +10,11 @@ public interface UserService {
 
     UserVO login(String id, String password);
 
-    boolean isDuplicatedId(String id);
+    boolean isDuplicatedId(String userId);
 
     UserVO getUserInfo(String userId);
 
     void updatePassword(String id, String beforePassword, String afterPassword);
 
-    void deleteId(String id);
+    void deleteId(String userId);
 }
