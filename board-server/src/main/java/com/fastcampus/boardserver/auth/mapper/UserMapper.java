@@ -1,8 +1,8 @@
 package com.fastcampus.boardserver.auth.mapper;
 
-import com.fastcampus.boardserver.auth.model.dao.UserDAO;
-import com.fastcampus.boardserver.auth.model.dao.UserRegisterDAO;
-import com.fastcampus.boardserver.auth.model.dao.UserUpdateDAO;
+import com.fastcampus.boardserver.auth.model.dao.response.UserDAO;
+import com.fastcampus.boardserver.auth.model.dao.reqeust.UserRegisterDAO;
+import com.fastcampus.boardserver.auth.model.dao.reqeust.UserUpdateDAO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

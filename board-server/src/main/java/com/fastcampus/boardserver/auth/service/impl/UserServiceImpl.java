@@ -3,16 +3,15 @@ package com.fastcampus.boardserver.auth.service.impl;
 import com.fastcampus.boardserver.auth.exception.DuplicatedIDException;
 import com.fastcampus.boardserver.auth.exception.NotExistUserException;
 import com.fastcampus.boardserver.auth.mapper.UserMapper;
-import com.fastcampus.boardserver.auth.model.dao.UserDAO;
-import com.fastcampus.boardserver.auth.model.dao.UserRegisterDAO;
-import com.fastcampus.boardserver.auth.model.dao.UserUpdateDAO;
-import com.fastcampus.boardserver.auth.model.dto.UserDTO;
+import com.fastcampus.boardserver.auth.model.dao.reqeust.UserRegisterDAO;
+import com.fastcampus.boardserver.auth.model.dao.reqeust.UserUpdateDAO;
+import com.fastcampus.boardserver.auth.model.dao.response.UserDAO;
+import com.fastcampus.boardserver.auth.model.dto.UserRegisterDTO;
+import com.fastcampus.boardserver.auth.model.vo.UserVO;
 import com.fastcampus.boardserver.auth.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 import static com.fastcampus.boardserver.global.util.SHA256Util.encryptSHA256;
 
@@ -24,14 +23,13 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public void register(UserDTO dto) {
+    public void register(UserRegisterDTO dto) {
         boolean isDuplicated = isDuplicatedId(dto.getUserId());
 
         if(isDuplicated) {
             throw new DuplicatedIDException("중복된 아이디 입니다.");
         }
 
-        dto.setCreateTime(new Date());
         dto.setPassword(encryptSHA256(dto.getPassword()));
 
         try{
@@ -42,12 +40,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(String userId, String password) {
+    public UserVO login(String userId, String password) {
         String cryptPassword = encryptSHA256(password);
         UserDAO dao = userMapper.selectUserByIdAndPassword(userId, cryptPassword);
 
         if(dao != null){
-            return new UserDTO(dao);
+            return new UserVO(dao);
         }else{
             throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
         }
@@ -59,11 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserInfo(String userId) {
+    public UserVO getUserInfo(String userId) {
         UserDAO dao = userMapper.selectUserById(userId);
 
         if(dao != null){
-            return new UserDTO(dao);
+            return new UserVO(dao);
         }else {
             throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
         }

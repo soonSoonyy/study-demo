@@ -1,4 +1,4 @@
-package com.fastcampus.boardserver.auth.model.user;
+package com.fastcampus.boardserver.auth.model.enums;
 
 public enum UserStatus {
 

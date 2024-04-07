@@ -1,9 +1,9 @@
 package com.fastcampus.boardserver.auth.service;
 
-import com.fastcampus.boardserver.auth.model.dto.UserDTO;
+import com.fastcampus.boardserver.auth.model.vo.UserVO;
 import jakarta.servlet.http.HttpSession;
 
 public interface SessionService {
 
-    void handleLoginSuccess(UserDTO user, HttpSession session);
+    void handleLoginSuccess(HttpSession session, UserVO vo);
 }
