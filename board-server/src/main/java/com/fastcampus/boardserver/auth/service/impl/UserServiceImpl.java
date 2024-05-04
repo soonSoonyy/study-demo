@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 import static com.fastcampus.boardserver.global.util.SHA256Util.encryptSHA256;
 
 @Service
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
         }
 
         dto.setPassword(encryptSHA256(dto.getPassword()));
+        dto.setCreatedAt(new Date());
 
         try{
             userMapper.insertUser(new UserRegisterDAO(dto));
@@ -53,7 +56,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isDuplicatedId(String userId) {
-        return userMapper.isDuplicatedId(userId);
+        if(userId == null || userId.isEmpty()){
+            throw new IllegalArgumentException("아이디를 입력해 주세요.");
+        }
+        return userMapper.isDuplicatedId(userId) > 0 ;
     }
 
     @Override
@@ -79,6 +85,7 @@ public class UserServiceImpl implements UserService {
                     UserUpdateDAO.builder()
                             .userId(userId)
                             .password(newEncryptPassword)
+                            .updatedAt(new Date())
                             .build());
         }else{
             throw new NotExistUserException("해당 유저는 없는 유저 입니다.");

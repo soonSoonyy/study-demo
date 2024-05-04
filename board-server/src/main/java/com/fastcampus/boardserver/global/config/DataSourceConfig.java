@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-public class DatabaseConfig {
+public class DataSourceConfig {
 
-    @Bean
+
     @ConfigurationProperties(prefix = "spring.datasource")
+    @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
+
 }

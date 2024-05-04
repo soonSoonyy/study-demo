@@ -14,20 +14,20 @@
     </select>
 
     <insert id="insertUser" parameterType="UserRegisterDAO">
-        INSERT INTO user (userId, password, nickname, isAdmin, isWithDraw, createdAt, updatedAt)
-        VALUES (#{userId}, #{password}, #{nickname}, #{isAdmin}, #{isWithDraw}, #{createdAt}, #{updatedAt})
+        INSERT INTO user (userId, password, nickname, isAdmin, isWithDraw, createdAt)
+        VALUES (#{userId}, #{password}, #{nickname}, #{isAdmin}, #{isWithDraw}, #{createdAt})
     </insert>
 
     <delete id="deleteUserById">
-        DELETE FROM user WHERE id = #{id}
+        DELETE FROM user WHERE userId = #{userId}
     </delete>
 
     <select id = "isDuplicatedId" resultType="Integer">
-        SELECT COUNT(id) FROM user WHERE userId = #{userId}
+        SELECT COUNT(seq) as COUNT FROM user WHERE userId = #{userId}
     </select>
 
     <update id = "updatePassword" parameterType="UserUpdateDAO">
-        UPDATE user SET password = #{password} WHERE userId = #{userId}
+        UPDATE user SET password = #{password}, updatedAt = #{updatedAt} WHERE userId = #{userId}
     </update>
 
 

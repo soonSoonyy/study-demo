@@ -22,6 +22,6 @@ public class UserRegisterDTO {
     private boolean isAdmin;
     private boolean isWithDraw;
     private UserStatus userStatus;
-    private Date createTime;
+    private Date createdAt;
 
 }

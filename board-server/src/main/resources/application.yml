@@ -1,12 +1,27 @@
+server:
+  port: 9001
 spring:
   application:
     name : board-server
 
   datasource:
-    driver-class-name:
-    url: jdbc:mysql://localhost:3306/board?serverTimezone=UTC
+    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: gpgp2932
+    jdbc-url: jdbc:mariadb://localhost:3306/board?serverTimezone=UTC
+
 
 mybatis:
-  mapper-locations: classpath:com.fastcampus.boardserver.mapper/*.xml
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.fastcampus.boardserver
+  configuration:
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    use-column-label: true
+    use-generated-keys: false
+    default-executor-type: simple
+    default-statement-timeout: 100
+    cache-enabled: false
+    local-cache-scope: statement
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: null

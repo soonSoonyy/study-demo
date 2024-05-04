@@ -19,7 +19,7 @@ public class UserUpdateDTO {
     private boolean isAdmin;
     private boolean isWithDraw;
     private UserStatus userStatus;
-    private Date updateTime;
+    private Date updatedAt;
 
 
 }

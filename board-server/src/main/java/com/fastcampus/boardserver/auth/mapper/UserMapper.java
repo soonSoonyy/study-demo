@@ -1,23 +1,24 @@
 package com.fastcampus.boardserver.auth.mapper;
 
-import com.fastcampus.boardserver.auth.model.dao.response.UserDAO;
 import com.fastcampus.boardserver.auth.model.dao.reqeust.UserRegisterDAO;
 import com.fastcampus.boardserver.auth.model.dao.reqeust.UserUpdateDAO;
+import com.fastcampus.boardserver.auth.model.dao.response.UserDAO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 @Mapper
+@Repository
 public interface UserMapper {
 
-    UserDAO selectUserById(@Param("userId") String userId);
+    UserDAO selectUserById(String userId);
 
-    UserDAO selectUserByIdAndPassword(@Param("userId") String userId, @Param("password") String password);
+    UserDAO selectUserByIdAndPassword(String userId, String password);
 
     void insertUser(UserRegisterDAO dao);
 
-    void deleteUserById(@Param("userId") String userId);
+    void deleteUserById(String userId);
 
-    boolean isDuplicatedId(@Param("userId") String userId);
+    Integer isDuplicatedId(String userId);
 
     void updatePassword(UserUpdateDAO dao);
 
