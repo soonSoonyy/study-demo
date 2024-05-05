@@ -18,8 +18,12 @@
         VALUES (#{userId}, #{password}, #{nickname}, #{isAdmin}, #{isWithDraw}, #{createdAt})
     </insert>
 
+    <update id="withDrawUserById" parameterType="UserUpdateDAO">
+        UPDATE user SET isWithDraw = #{isWithDraw}, updatedAt = #{updatedAt} WHERE userId = #{userId}
+    </update>
+
     <delete id="deleteUserById">
-        DELETE FROM user WHERE userId = #{userId}
+        delete from user where userId = #{userId}
     </delete>
 
     <select id = "isDuplicatedId" resultType="Integer">

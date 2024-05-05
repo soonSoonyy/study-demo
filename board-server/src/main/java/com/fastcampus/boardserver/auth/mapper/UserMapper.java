@@ -16,6 +16,8 @@ public interface UserMapper {
 
     void insertUser(UserRegisterDAO dao);
 
+    void withDrawUserById(UserUpdateDAO dao);
+
     void deleteUserById(String userId);
 
     Integer isDuplicatedId(String userId);

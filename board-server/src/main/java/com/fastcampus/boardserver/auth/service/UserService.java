@@ -16,5 +16,8 @@ public interface UserService {
 
     void updatePassword(String id, String beforePassword, String afterPassword);
 
+    void dropId(String userId);
+
     void deleteId(String userId);
+
 }

@@ -9,6 +9,7 @@ import com.fastcampus.boardserver.auth.model.dao.response.UserDAO;
 import com.fastcampus.boardserver.auth.model.dto.UserRegisterDTO;
 import com.fastcampus.boardserver.auth.model.vo.UserVO;
 import com.fastcampus.boardserver.auth.service.UserService;
+import com.fastcampus.boardserver.global.util.SHA256Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String userId, String beforePassword, String afterPassword) {
 
-        UserDAO user = userMapper.selectUserByIdAndPassword(userId, beforePassword);
+        UserDAO user = userMapper.selectUserByIdAndPassword(userId, SHA256Util.encryptSHA256(beforePassword));
 
         if(user != null){
             String newEncryptPassword = encryptSHA256(afterPassword);
@@ -93,12 +94,33 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+    @Override
+    public void dropId(String userId) {
+        UserDAO user = userMapper.selectUserById(userId);
+
+        if(user != null){
+            if(user.isWithDraw()){
+                userMapper.deleteUserById(userId);
+            }else{
+                throw new IllegalStateException("탈퇴를 신청한 유저가 아닙니다.");
+            }
+
+        }else{
+            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+        }
+    }
+
     @Override
     public void deleteId(String userId) {
         UserDAO user = userMapper.selectUserById(userId);
 
         if(user != null){
-            userMapper.deleteUserById(userId);
+            userMapper.withDrawUserById(UserUpdateDAO.builder()
+                    .userId(userId)
+                    .isWithDraw(true)
+                    .updatedAt(new Date())
+                    .build());
         }else{
             throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
         }

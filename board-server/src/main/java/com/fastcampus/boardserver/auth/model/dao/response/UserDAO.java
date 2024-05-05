@@ -12,10 +12,9 @@ public class UserDAO {
         private String userId;
         private String password;
         private String nickname;
-        private UserStatus userStatus;
         private boolean isAdmin;
         private boolean isWithDraw;
-        private Date createTime;
-        private Date updateTime;
+        private Date createdAt;
+        private Date updatedAt;
 
 }

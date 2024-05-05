@@ -14,17 +14,17 @@ public class UserVO {
     private final boolean isAdmin;
     private final boolean isWithDraw;
     private final UserStatus userStatus;
-    private final Date createTime;
-    private final Date updateTime;
+    private final Date createdAt;
+    private final Date updatedAt;
 
     public UserVO(UserDAO dao) {
         this.userId = dao.getUserId();
         this.nickname = dao.getNickname();
         this.isAdmin = dao.isAdmin();
         this.isWithDraw = dao.isWithDraw();
-        this.userStatus = dao.getUserStatus();
-        this.createTime = dao.getCreateTime();
-        this.updateTime = dao.getUpdateTime();
+        this.userStatus = dao.isAdmin() ? UserStatus.ADMIN : dao.isWithDraw() ? UserStatus.DELETE : UserStatus.DEFAULT;
+        this.createdAt = dao.getCreatedAt();
+        this.updatedAt = dao.getUpdatedAt();
     }
 
 }

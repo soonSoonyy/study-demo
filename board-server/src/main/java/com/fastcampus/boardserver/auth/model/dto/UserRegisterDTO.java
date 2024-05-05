@@ -21,7 +21,6 @@ public class UserRegisterDTO {
     private String nickname;
     private boolean isAdmin;
     private boolean isWithDraw;
-    private UserStatus userStatus;
     private Date createdAt;
 
 }
