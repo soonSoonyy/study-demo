@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fastcampus.boardserver.auth.mapper.UserMapper">
+
+    <select id="selectUserById" resultType="UserDAO">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id = "selectUserByIdAndPassword" resultType="UserDAO">
+        SELECT * FROM user WHERE userId = #{userId} AND password = #{password}
+    </select>
+
+    <insert id="insertUser" parameterType="UserRegisterDAO">
+        INSERT INTO user (userId, password, nickname, isAdmin, isWithDraw, createdAt, updatedAt)
+        VALUES (#{userId}, #{password}, #{nickname}, #{isAdmin}, #{isWithDraw}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <delete id="deleteUserById">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <select id = "isDuplicatedId" resultType="Integer">
+        SELECT COUNT(id) FROM user WHERE userId = #{userId}
+    </select>
+
+    <update id = "updatePassword" parameterType="UserUpdateDAO">
+        UPDATE user SET password = #{password} WHERE userId = #{userId}
+    </update>
+
+
+
+</mapper>
