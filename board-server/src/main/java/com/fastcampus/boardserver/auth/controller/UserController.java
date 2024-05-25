@@ -1,8 +1,8 @@
 package com.fastcampus.boardserver.auth.controller;
 
 import com.fastcampus.boardserver.auth.aop.LoginCheck;
-import com.fastcampus.boardserver.auth.exception.NotExistUserException;
-import com.fastcampus.boardserver.auth.exception.UnSupportedException;
+import com.fastcampus.boardserver.global.exception.NotExistUserException;
+import com.fastcampus.boardserver.global.exception.UnSupportedException;
 import com.fastcampus.boardserver.auth.model.LoginResponse;
 import com.fastcampus.boardserver.auth.model.dto.UserChangePasswordDTO;
 import com.fastcampus.boardserver.auth.model.dto.UserDeleteDTO;

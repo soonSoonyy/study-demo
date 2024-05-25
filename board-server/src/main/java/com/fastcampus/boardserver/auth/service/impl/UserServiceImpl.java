@@ -1,7 +1,7 @@
 package com.fastcampus.boardserver.auth.service.impl;
 
-import com.fastcampus.boardserver.auth.exception.DuplicatedIDException;
-import com.fastcampus.boardserver.auth.exception.NotExistUserException;
+import com.fastcampus.boardserver.global.exception.DuplicatedIDException;
+import com.fastcampus.boardserver.global.exception.NotExistUserException;
 import com.fastcampus.boardserver.auth.mapper.UserMapper;
 import com.fastcampus.boardserver.auth.model.dao.reqeust.UserRegisterDAO;
 import com.fastcampus.boardserver.auth.model.dao.reqeust.UserUpdateDAO;
