@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fastcampus.boardserver.board.mapper.PostMapper">
+
+    <sql id="filterPost">
+        <if test="categoryId != null">
+            AND categoryId = #{categoryId}
+        </if>
+        <if test="userId != null">
+            AND userId = #{userId}
+        </if>
+    </sql>
+
+    <insert id = "registerPost" parameterType="PostRegisterDAO">
+        INSERT INTO post (name, content, categoryId, userId, fileId, createdAt)
+        VALUES (#{name}, #{content}, #{categoryId}, #{userId}, #{fileId}, #{createdAt})
+    </insert>
+
+    <select id="selectPostList" parameterType="PostFilterDAO" resultType="PostDAO">
+        SELECT seq, name, content, categoryId, userId, fileId, createdAt, updatedAt
+        FROM post
+        <where>
+            <include refid="filterPost"/>
+        </where>
+        ORDER BY createdAt DESC
+    </select>
+
+
+    <select id="selectOnePost" resultType="PostDAO">
+        SELECT seq, name, content, categoryId, userId, fileId, createdAt, updatedAt
+        FROM post
+        <where>
+            seq = #{seq}
+        </where>
+    </select>
+
+    <update id = "updatePost" parameterType="PostUpdateDAO">
+        UPDATE post SET name = #{name}, content = #{content}, categoryId = #{categoryId}, fileId = #{fileId}, updatedAt = #{updatedAt}
+        WHERE seq = #{seq}
+    </update>
+
+    <delete id = "deletePost" parameterType="Integer">
+        DELETE FROM post
+        WHERE seq = #{seq}
+    </delete>
+
+</mapper>

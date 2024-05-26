@@ -2,7 +2,7 @@ package com.fastcampus.boardserver.auth.controller;
 
 import com.fastcampus.boardserver.auth.aop.LoginCheck;
 import com.fastcampus.boardserver.global.exception.NotExistUserException;
-import com.fastcampus.boardserver.global.exception.UnSupportedException;
+import com.fastcampus.boardserver.global.exception.ForbiddenException;
 import com.fastcampus.boardserver.auth.model.LoginResponse;
 import com.fastcampus.boardserver.auth.model.dto.UserChangePasswordDTO;
 import com.fastcampus.boardserver.auth.model.dto.UserDeleteDTO;
@@ -70,7 +70,7 @@ public class UserController {
                 UserVO vo = userService.getUserInfo(accountId);
                 return ResponseEntity.ok(vo);
             } else {
-                throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+                throw new NotExistUserException();
             }
         } catch (NotExistUserException e) {
             log.error("사용자 정보를 찾을 수 없습니다.", e);
@@ -111,7 +111,7 @@ public class UserController {
             UserVO user = userService.getUserInfo(accountId);
 
             if (user.getUserStatus() != UserStatus.ADMIN) {
-                throw new UnSupportedException("해당 유저는 권한이 없습니다.");
+                throw new ForbiddenException();
             }
 
             userService.dropId(dto.getUserId());

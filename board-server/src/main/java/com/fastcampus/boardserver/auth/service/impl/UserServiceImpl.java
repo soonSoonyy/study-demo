@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
         boolean isDuplicated = isDuplicatedId(dto.getUserId());
 
         if(isDuplicated) {
-            throw new DuplicatedIDException("중복된 아이디 입니다.");
+            throw new DuplicatedIDException();
         }
 
         dto.setPassword(encryptSHA256(dto.getPassword()));
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         if(dao != null){
             return new UserVO(dao);
         }else{
-            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+            throw new NotExistUserException();
         }
     }
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         if(dao != null){
             return new UserVO(dao);
         }else {
-            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+            throw new NotExistUserException();
         }
     }
 
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
                             .updatedAt(new Date())
                             .build());
         }else{
-            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+            throw new NotExistUserException();
         }
 
     }
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
             }
 
         }else{
-            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+            throw new NotExistUserException();
         }
     }
 
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
                     .updatedAt(new Date())
                     .build());
         }else{
-            throw new NotExistUserException("해당 유저는 없는 유저 입니다.");
+            throw new NotExistUserException();
         }
     }
 }

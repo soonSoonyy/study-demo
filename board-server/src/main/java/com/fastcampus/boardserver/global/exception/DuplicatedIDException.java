@@ -1,7 +1,14 @@
 package com.fastcampus.boardserver.global.exception;
 
-public class DuplicatedIDException extends RuntimeException {
-    public DuplicatedIDException(String message) {
-        super(message);
+import com.fastcampus.boardserver.global.response.ResultCode;
+
+public class DuplicatedIDException extends CustomException {
+
+    public DuplicatedIDException() {
+        super(ResultCode.DUPLICATE_USER_ID);
+    }
+
+    public DuplicatedIDException(Throwable cause) {
+        super(ResultCode.DUPLICATE_USER_ID, cause);
     }
 }

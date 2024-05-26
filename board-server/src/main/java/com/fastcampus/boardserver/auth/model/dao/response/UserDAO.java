@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserDAO {
+        private Integer seq;
         private String userId;
         private String password;
         private String nickname;
