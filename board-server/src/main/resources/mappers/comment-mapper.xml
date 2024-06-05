@@ -5,6 +5,4 @@
 
 <mapper namespace="com.fastcampus.boardserver.board.mapper.CommentMapper">
 
-    <select>
-
-    </select>
+</mapper>

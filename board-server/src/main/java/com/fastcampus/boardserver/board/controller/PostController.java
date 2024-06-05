@@ -5,7 +5,7 @@ import com.fastcampus.boardserver.board.model.dto.PostRegisterDTO;
 import com.fastcampus.boardserver.board.model.dto.PostUpdateDTO;
 import com.fastcampus.boardserver.board.model.vo.PostVO;
 import com.fastcampus.boardserver.board.service.PostService;
-import com.fastcampus.boardserver.global.exception.*;
+import com.fastcampus.boardserver.global.exception.CustomException;
 import com.fastcampus.boardserver.global.response.CommonResponse;
 import com.fastcampus.boardserver.global.response.ResultCode;
 import lombok.AllArgsConstructor;
@@ -62,7 +62,7 @@ public class PostController {
                     .<List<PostVO>>builder()
                     .code(ResultCode.SUCCESS.getCode())
                     .status(ResultCode.SUCCESS.getHttpStatus())
-                    .requestBody(postService.getPostListByUserId(accountId, categoryId))
+                    .body(postService.getPostListByUserId(accountId, categoryId))
                     .build();
         } catch (CustomException e) {
             return CommonResponse
@@ -91,7 +91,7 @@ public class PostController {
                     .<List<PostVO>>builder()
                     .code(ResultCode.SUCCESS.getCode())
                     .status(ResultCode.SUCCESS.getHttpStatus())
-                    .requestBody(postService.getPostList(categoryId))
+                    .body(postService.getPostList(categoryId))
                     .build();
         } catch (Exception e) {
             return CommonResponse
@@ -112,7 +112,7 @@ public class PostController {
                     .<PostVO>builder()
                     .code(ResultCode.SUCCESS.getCode())
                     .status(ResultCode.SUCCESS.getHttpStatus())
-                    .requestBody(postService.getPostDetail(seq))
+                    .body(postService.getPostDetail(seq))
                     .build();
         } catch (Exception e) {
             return CommonResponse

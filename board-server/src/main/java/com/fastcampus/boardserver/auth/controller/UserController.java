@@ -1,6 +1,7 @@
 package com.fastcampus.boardserver.auth.controller;
 
 import com.fastcampus.boardserver.auth.aop.LoginCheck;
+import com.fastcampus.boardserver.global.exception.CustomException;
 import com.fastcampus.boardserver.global.exception.NotExistUserException;
 import com.fastcampus.boardserver.global.exception.ForbiddenException;
 import com.fastcampus.boardserver.auth.model.LoginResponse;
@@ -12,6 +13,8 @@ import com.fastcampus.boardserver.auth.model.enums.UserStatus;
 import com.fastcampus.boardserver.auth.model.vo.UserVO;
 import com.fastcampus.boardserver.auth.service.SessionService;
 import com.fastcampus.boardserver.auth.service.UserService;
+import com.fastcampus.boardserver.global.response.CommonResponse;
+import com.fastcampus.boardserver.global.response.ResultCode;
 import com.fastcampus.boardserver.global.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -30,82 +33,164 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> signup(
+    public CommonResponse<UserVO> signup(
             @RequestBody UserRegisterDTO dto) {
+        try {
 
-        if (UserRegisterDTO.hasNullDataBeforeSignup(dto)) {
-            throw new IllegalArgumentException("데이터가 올바르지 않습니다.");
+            if (UserRegisterDTO.hasNullDataBeforeSignup(dto)) {
+                throw new IllegalArgumentException("데이터가 올바르지 않습니다.");
+            }
+
+            userService.register(dto);
+            UserVO vo = userService.getUserInfo(dto.getUserId());
+
+            if(vo == null) {
+                throw new NotExistUserException();
+            }
+
+            return CommonResponse
+                    .<UserVO>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .body(vo)
+                    .build();
+        } catch (CustomException e) {
+            return CommonResponse
+                    .<UserVO>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
+        } catch (Exception e) {
+            return CommonResponse
+                    .<UserVO>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
 
-        userService.register(dto);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<LoginResponse> login(HttpSession session, @RequestBody UserLoginDTO dto) {
+    public CommonResponse<LoginResponse> login(HttpSession session, @RequestBody UserLoginDTO dto) {
 
         try {
             UserVO vo = userService.login(dto.getUserId(), dto.getPassword());
-
-
             sessionService.handleLoginSuccess(session, vo);
-            return ResponseEntity.ok(LoginResponse.success(vo));
-        } catch (NotExistUserException e) {
-            log.error("사용자 인증에 실패 하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return CommonResponse
+                    .<LoginResponse>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .build();
+        } catch (CustomException e) {
+            return CommonResponse
+                    .<LoginResponse>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
 
         } catch (Exception e) {
-            log.error("로그인 중 에러가 발생하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return CommonResponse
+                    .<LoginResponse>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
     }
 
 
     @GetMapping("/my-info")
     @LoginCheck(userType = LoginCheck.UserType.ALL)
-    public ResponseEntity<UserVO> getMyInfo(String accountId) {
+    public CommonResponse<UserVO> getMyInfo(String accountId) {
         try {
             if (accountId != null) {
                 UserVO vo = userService.getUserInfo(accountId);
-                return ResponseEntity.ok(vo);
+                return CommonResponse
+                        .<UserVO>builder()
+                        .code(ResultCode.SUCCESS.getCode())
+                        .status(ResultCode.SUCCESS.getHttpStatus())
+                        .body(vo)
+                        .build();
             } else {
                 throw new NotExistUserException();
             }
-        } catch (NotExistUserException e) {
+        } catch (CustomException e) {
             log.error("사용자 정보를 찾을 수 없습니다.", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return CommonResponse
+                    .<UserVO>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
         } catch (Exception e) {
-            log.error("사용자 정보를 찾는 중 에러가 발생하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return CommonResponse
+                    .<UserVO>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
     }
 
     @PutMapping("logout")
-    public void logout(HttpSession session) {
-        SessionUtil.sessionClear(session);
+    public CommonResponse<Void> logout(HttpSession session) {
+
+        try {
+            SessionUtil.sessionClear(session);
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .build();
+        } catch (Exception e) {
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
+
+        }
     }
 
 
     @PatchMapping("password")
     @LoginCheck(userType = LoginCheck.UserType.ALL)
-    public ResponseEntity<?> changePassword(String accountId, @RequestBody UserChangePasswordDTO dto) {
+    public CommonResponse<Void> changePassword(String accountId, @RequestBody UserChangePasswordDTO dto) {
         try {
             String id = accountId;
             String beforePassword = dto.getCurrentPassword();
             String afterPassword = dto.getNewPassword();
 
             userService.updatePassword(id, beforePassword, afterPassword);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .build();
+        } catch (CustomException e) {
+            return CommonResponse
+                    .<Void>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
         } catch (Exception e) {
-            log.error("비밀번호 변경 중 에러가 발생하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
     }
 
     @PostMapping("/delete")
     @LoginCheck(userType = LoginCheck.UserType.ADMIN)
-    public ResponseEntity<?> dropUser(String accountId, @RequestBody UserDeleteDTO dto) {
+    public CommonResponse<Void> dropUser(String accountId, @RequestBody UserDeleteDTO dto) {
         try {
 
             UserVO user = userService.getUserInfo(accountId);
@@ -115,25 +200,55 @@ public class UserController {
             }
 
             userService.dropId(dto.getUserId());
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .build();
 
-        } catch (Exception e) {
-            log.error("계정 삭제 중 에러가 발생하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }catch (CustomException e){
+            return CommonResponse
+                    .<Void>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
+        }catch (Exception e) {
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
     }
 
     @PostMapping("withdrawal")
     @LoginCheck(userType = LoginCheck.UserType.USER)
-    public ResponseEntity<?> deleteUser(String accountId) {
+    public CommonResponse<Void> deleteUser(String accountId) {
         try {
 
             userService.deleteId(accountId);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.SUCCESS.getCode())
+                    .status(ResultCode.SUCCESS.getHttpStatus())
+                    .build();
 
-        } catch (Exception e) {
-            log.error("계정 탈퇴 처리 중 에러가 발생하였습니다.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (CustomException e){
+            return CommonResponse
+                    .<Void>builder()
+                    .code(e.getCode())
+                    .status(e.getHttpStatus())
+                    .message(e.getMessage())
+                    .build();
+        }catch (Exception e) {
+            return CommonResponse
+                    .<Void>builder()
+                    .code(ResultCode.FAIL.getCode())
+                    .status(ResultCode.FAIL.getHttpStatus())
+                    .message(ResultCode.FAIL.getMessage())
+                    .build();
         }
     }
 }

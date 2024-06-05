@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class UserRegisterDAO {
+    private Integer seq;
     private String userId;
     private String password;
     private String nickname;

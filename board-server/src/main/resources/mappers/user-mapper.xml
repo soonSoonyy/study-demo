@@ -13,7 +13,7 @@
         SELECT * FROM user WHERE userId = #{userId} AND password = #{password}
     </select>
 
-    <insert id="insertUser" parameterType="UserRegisterDAO">
+    <insert id="insertUser" parameterType="UserRegisterDAO" useGeneratedKeys="true" keyColumn="seq">
         INSERT INTO user (userId, password, nickname, isAdmin, isWithDraw, createdAt)
         VALUES (#{userId}, #{password}, #{nickname}, #{isAdmin}, #{isWithDraw}, #{createdAt})
     </insert>

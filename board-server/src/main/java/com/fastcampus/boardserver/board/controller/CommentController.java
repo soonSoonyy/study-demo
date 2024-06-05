@@ -1,7 +1,6 @@
 package com.fastcampus.boardserver.board.controller;
 
 import com.fastcampus.boardserver.auth.aop.LoginCheck;
-import com.fastcampus.boardserver.board.model.dao.request.CommentRegisterDAO;
 import com.fastcampus.boardserver.board.model.dao.response.CommentDAO;
 import com.fastcampus.boardserver.board.model.dto.CommentRegisterDTO;
 import com.fastcampus.boardserver.board.service.CommentService;
@@ -45,7 +44,7 @@ public class CommentController {
                 .<List<CommentDAO>>builder()
                 .code(ResultCode.SUCCESS.getCode())
                 .status(ResultCode.SUCCESS.getHttpStatus())
-                .requestBody(commentService.getCommentListByPostId(postId))
+                .body(commentService.getCommentListByPostId(postId))
                 .build();
     }
 

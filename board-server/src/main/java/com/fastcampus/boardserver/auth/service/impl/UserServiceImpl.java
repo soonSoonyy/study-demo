@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService {
         dto.setCreatedAt(new Date());
 
         try{
-            userMapper.insertUser(new UserRegisterDAO(dto));
+            UserRegisterDAO dao = new UserRegisterDAO(dto);
+            userMapper.insertUser(dao);
         }catch (Exception e){
             throw new RuntimeException("가입 중 에러가 발생 하였습니다.");
         }

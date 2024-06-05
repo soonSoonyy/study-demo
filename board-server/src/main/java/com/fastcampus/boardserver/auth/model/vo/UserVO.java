@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 public class UserVO {
 
+    private final Integer seq;
     private final String userId;
     private final String nickname;
     private final boolean isAdmin;
@@ -18,6 +19,7 @@ public class UserVO {
     private final Date updatedAt;
 
     public UserVO(UserDAO dao) {
+        this.seq = dao.getSeq();
         this.userId = dao.getUserId();
         this.nickname = dao.getNickname();
         this.isAdmin = dao.isAdmin();
