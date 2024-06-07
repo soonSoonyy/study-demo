@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>email form</title>
+    <!-- 부트스트랩 CSS 추가 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form action="/email/form" method="post" class="mt-5">
+        <div class="form-group">
+            <label for="email">이메일 주소:</label>
+            <input type="email" id="email" name="email" class="form-control">
+        </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
+    <button class="ajaxsend btn btn-secondary mt-2">Ajax 제출</button>
+
+    <div class="result mt-3"> </div>
+</div>
+
+<script>
+    document.querySelector('.ajaxsend').addEventListener('click', function(){
+        var inputdata = document.forms[0].elements[0].value
+        sendAjax('http://localhost:3000/email/ajax', inputdata)
+
+        function sendAjax(url, data) {
+            var data = {'email': data};
+            data = JSON.stringify(data);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(data);
+            xhr.addEventListener('load', function(){
+                var result = JSON.parse(xhr.responseText);
+                var resultDiv = document.querySelector('.result')
+
+                if(result.result !== 'ok')
+                    resultDiv.innerHTML = result.message;
+
+                resultDiv.innerHTML = result.data.Name + '님 환영합니다!'
+            });
+        }
+    });
+</script>
+<!-- 부트스트랩 JS와 Popper.js 추가 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
